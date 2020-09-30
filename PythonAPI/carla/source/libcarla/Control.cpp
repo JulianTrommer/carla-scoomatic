@@ -11,6 +11,8 @@
 #include <carla/rpc/WalkerControl.h>
 #include <carla/rpc/WalkerBoneControl.h>
 
+#include <carla/rpc/ScoomaticControl.h>
+
 #include <ostream>
 
 namespace carla {
@@ -45,6 +47,12 @@ namespace rpc {
           << ", transform=" << bone_transform.second << ')';
     }
     out << "))";
+    return out;
+  }
+
+  std::ostream &operator<<(std::ostream &out, const ScoomaticControl &control) {
+    out << "ScoomaticControl(left_velocity=" << std::to_string(control.left_velocity)
+        << ", right_velocity=" << std::to_string(control.right_velocity) << ')';
     return out;
   }
 
@@ -304,6 +312,17 @@ void export_control() {
     .def("__init__", raw_function(WalkerBoneControl_init))
     .def(init<>())
     .add_property("bone_transforms", &GetBonesTransform, &SetBonesTransform)
+    .def(self_ns::str(self_ns::self))
+  ;
+
+  class_<cr::ScoomaticControl>("ScoomaticControl")
+    .def(init<float, float>(
+       (arg("left_velocity") = 0.0f,
+       arg("right_velocity") = 0.0f)))
+    .def_readwrite("left_velocity", &cr::ScoomaticControl::left_velocity)
+    .def_readwrite("right_velocity", &cr::ScoomaticControl::right_velocity)
+    .def("__eq__", &cr::ScoomaticControl::operator==)
+    .def("__ne__", &cr::ScoomaticControl::operator!=)
     .def(self_ns::str(self_ns::self))
   ;
 

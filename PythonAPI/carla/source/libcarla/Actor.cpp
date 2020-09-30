@@ -12,6 +12,8 @@
 #include <carla/rpc/TrafficLightState.h>
 #include <carla/trafficmanager/TrafficManager.h>
 
+#include <carla/client/Scoomatic.h>
+
 #include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 
 #include <ostream>
@@ -141,6 +143,13 @@ void export_actor() {
     .def("go_to_location", &cc::WalkerAIController::GoToLocation, (arg("destination")))
     .def("set_max_speed", &cc::WalkerAIController::SetMaxSpeed, (arg("speed")))
     .def(self_ns::str(self_ns::self))
+  ;
+
+  class_<cc::Scoomatic, bases<cc::Actor>, boost::noncopyable, boost::shared_ptr<cc::Scoomatic>>("Scoomatic", no_init)
+      .add_property("bounding_box", CALL_RETURNING_COPY(cc::Scoomatic, GetBoundingBox))
+      .def("apply_control", &cc::Scoomatic::ApplyControl, (arg("control")))
+      .def("get_control", &cc::Scoomatic::GetControl)
+      .def(self_ns::str(self_ns::self))
   ;
 
   class_<cc::TrafficSign, bases<cc::Actor>, boost::noncopyable, boost::shared_ptr<cc::TrafficSign>>(

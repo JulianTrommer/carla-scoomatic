@@ -15,6 +15,8 @@
 #include "carla/rpc/VehicleLightState.h"
 #include "carla/rpc/WalkerControl.h"
 
+#include "carla/rpc/ScoomaticControl.h"
+
 #include <boost/variant.hpp>
 
 namespace carla {
@@ -80,6 +82,16 @@ namespace rpc {
           control(value) {}
       ActorId actor;
       WalkerControl control;
+      MSGPACK_DEFINE_ARRAY(actor, control);
+    };
+
+    struct ApplyScoomaticControl : CommandBase<ApplyScoomaticControl> {
+      ApplyScoomaticControl() = default;
+      ApplyScoomaticControl(ActorId id, const ScoomaticControl &value)
+        : actor(id),
+          control(value) {}
+      ActorId actor;
+      ScoomaticControl control;
       MSGPACK_DEFINE_ARRAY(actor, control);
     };
 
@@ -184,6 +196,7 @@ namespace rpc {
         DestroyActor,
         ApplyVehicleControl,
         ApplyWalkerControl,
+	ApplyScoomaticControl,
         ApplyTransform,
         ApplyWalkerState,
         ApplyVelocity,

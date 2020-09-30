@@ -1105,6 +1105,28 @@ void UActorBlueprintFunctionLibrary::MakePedestrianDefinitions(
   FillActorDefinitionArray(ParameterArray, Definitions, &MakePedestrianDefinition);
 }
 
+void UActorBlueprintFunctionLibrary::MakeScoomaticDefinition(
+    const FScoomaticParameters &Parameters,
+    bool &Success,
+    FActorDefinition &Definition)
+{
+  /// @todo We need to validate here the params.
+  FillIdAndTags(Definition, TEXT("scoomatic"), Parameters.Make, Parameters.Model);
+  AddRecommendedValuesForActorRoleName(Definition, {TEXT("scoomatic")});
+  Definition.Class = Parameters.Class;
+
+  Success = CheckActorDefinition(Definition);
+}
+
+void UActorBlueprintFunctionLibrary::MakeScoomaticDefinitions(
+    const TArray<FScoomaticParameters> &ParameterArray,
+    TArray<FActorDefinition> &Definitions)
+{
+  FillActorDefinitionArray(ParameterArray, Definitions, &MakeScoomaticDefinition);
+}
+
+
+
 void UActorBlueprintFunctionLibrary::MakeTriggerDefinitions(
     const TArray<FString> &ParameterArray,
     TArray<FActorDefinition> &Definitions)

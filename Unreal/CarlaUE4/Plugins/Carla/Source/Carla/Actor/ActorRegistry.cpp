@@ -27,6 +27,10 @@ static FActorView::ActorType FActorRegistry_GetActorType(const FActorView &View)
   {
     return FActorView::ActorType::Walker;
   }
+  else if (nullptr != Cast<ACarlaScoomaticBase>(View.GetActor()))
+  {
+    return FActorView::ActorType::Scoomatic;
+  }
   else if (nullptr != Cast<ATrafficLightBase>(View.GetActor()))
   {
     return FActorView::ActorType::TrafficLight;

@@ -15,6 +15,8 @@
 #include "Carla/Sensor/Radar.h"
 #include "Carla/Sensor/InertialMeasurementUnit.h"
 
+#include "Carla/Actor/ScoomaticParameters.h"
+
 #include "Kismet/BlueprintFunctionLibrary.h"
 
 #include "ActorBlueprintFunctionLibrary.generated.h"
@@ -121,6 +123,17 @@ public:
   UFUNCTION(Category = "Carla Actor", BlueprintCallable)
   static void MakePedestrianDefinitions(
       const TArray<FPedestrianParameters> &ParameterArray,
+      TArray<FActorDefinition> &Definitions);
+
+  UFUNCTION(Category = "Carla Actor", BlueprintCallable)
+  static void MakeScoomaticDefinition(
+      const FScoomaticParameters &Parameters,
+      bool &Success,
+      FActorDefinition &Definition);
+
+  UFUNCTION(Category = "Carla Actor", BlueprintCallable)
+  static void MakeScoomaticDefinitions(
+      const TArray<FScoomaticParameters> &ParameterArray,
       TArray<FActorDefinition> &Definitions);
 
   UFUNCTION(Category = "Carla Actor", BlueprintCallable)

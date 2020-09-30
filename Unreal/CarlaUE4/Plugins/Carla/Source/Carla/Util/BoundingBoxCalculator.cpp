@@ -10,6 +10,8 @@
 #include "Carla/Traffic/TrafficSignBase.h"
 #include "Carla/Vehicle/CarlaWheeledVehicle.h"
 
+#include "Carla/Scoomatic/CarlaScoomaticBase.h"
+
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/Character.h"
 
@@ -56,6 +58,15 @@ FBoundingBox UBoundingBoxCalculator::GetActorBoundingBox(const AActor *Actor)
         UE_LOG(LogCarla, Warning, TEXT("Traffic sign missing trigger volume: %s"), *Actor->GetName());
         return {};
       }
+    }
+
+    // Scoomatic.
+    auto Scoomatic = Cast<ACarlaScoomaticBase>(Actor);
+    if (Scoomatic != nullptr)
+    {
+      FVector Origin = Scoomatic->GetScoomaticBoundingBoxTransform().GetTranslation();
+      FVector Extent = Scoomatic->GetScoomaticBoundingBoxExtent();
+      return {Origin, Extent};
     }
   }
   return {};

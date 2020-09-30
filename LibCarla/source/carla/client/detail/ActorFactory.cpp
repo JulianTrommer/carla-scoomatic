@@ -22,6 +22,8 @@
 #include "carla/client/World.h"
 #include "carla/client/detail/Client.h"
 
+#include "carla/client/Scoomatic.h"
+
 #include <rpc/config.h>
 #include <rpc/rpc_error.h>
 
@@ -87,7 +89,9 @@ namespace detail {
       return MakeActorImpl<Vehicle>(std::move(init), gc);
     } else if (StringUtil::StartsWith(description.description.id, "walker.")) {
       return MakeActorImpl<Walker>(std::move(init), gc);
-    } else if (StringUtil::StartsWith(description.description.id, "traffic.traffic_light")) {
+    }  else if (StringUtil::StartsWith(description.description.id, "scoomatic.")) {
+      return MakeActorImpl<Scoomatic>(std::move(init), gc);
+    }  else if (StringUtil::StartsWith(description.description.id, "traffic.traffic_light")) {
       return MakeActorImpl<TrafficLight>(std::move(init), gc);
     } else if (StringUtil::StartsWith(description.description.id, "traffic.")) {
       return MakeActorImpl<TrafficSign>(std::move(init), gc);
